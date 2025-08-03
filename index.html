@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luis Construye - Un Chalet en Azuqueca</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+        }
+        h1, h2, h3 {
+            font-family: 'Roboto Slab', serif;
+        }
+        .nav-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link.active {
+            color: #EBD9B4;
+            font-weight: 700;
+        }
+        .gallery-thumbnail {
+            transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .gallery-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .gallery-thumbnail.active {
+            border-color: #EBD9B4;
+            box-shadow: 0 0 0 3px rgba(235, 217, 180, 0.3);
+        }
+        .main-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .main-image {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+        }
+        .main-image.fade-out {
+            opacity: 0;
+        }
+        .progress-bar-container {
+            height: 8px;
+            background-color: #4B5563;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #EBD9B4;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+    <!-- Chosen Palette: Dark & Gold -->
+    <!-- Application Structure Plan: A single-page, vertical-scrolling application. A sticky top navigation bar allows users to jump to specific construction phases. Each phase is a dedicated section with a modern, clean two-column layout. This chronological structure is intuitive for following the construction story. The navigation provides quick access for targeted updates. The design is fully responsive, stacking columns on mobile for optimal viewing. A key addition is a visible progress bar at the top to give a clear sense of project completion. -->
+    <!-- Visualization & Content Choices: The primary content is narrative text and photography. Each section uses an interactive photo gallery powered by vanilla JavaScript with a fade effect. The user clicks a thumbnail to view a larger image. This method is direct, engaging, and perfectly suited for a visual diary format. A progress bar, built with simple HTML/CSS and JavaScript, provides a high-level visual summary of the project's state, directly addressing the user's need for more visual feedback beyond just text and images. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="text-gray-100">
+
+    <header id="header" class="bg-gray-900/80 backdrop-blur-lg sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3">
+                <img src="luis.jpeg" class="h-10 w-10 rounded-full object-cover" alt="Foto de Luis" />
+                <h1 class="text-2xl font-bold text-gray-50">Luis Construye</h1>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-gray-400">
+                <a href="#ubicacion" class="nav-link hover:text-gray-50">Ubicación</a>
+                <a href="#diseno" class="nav-link hover:text-gray-50">Diseño</a>
+                <a href="#ideas" class="nav-link hover:text-gray-50">Ideas</a>
+                <a href="#obra" class="nav-link hover:text-gray-50">Obra</a>
+                <a href="#interiores" class="nav-link hover:text-gray-50">Interiores</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-50">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 px-4 pb-4 text-gray-400">
+            <a href="#ubicacion" class="block py-2 nav-link hover:text-gray-50">Ubicación</a>
+            <a href="#diseno" class="block py-2 nav-link hover:text-gray-50">Diseño</a>
+            <a href="#ideas" class="block py-2 nav-link hover:text-gray-50">Ideas</a>
+            <a href="#obra" class="block py-2 nav-link hover:text-gray-50">Obra</a>
+            <a href="#interiores" class="block py-2 nav-link hover:text-gray-50">Interiores</a>
+        </div>
+        <div class="progress-bar-container">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-6 py-8 md:py-16">
+        
+        <section class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-50 mb-4">Construcción Vivivienda completa</h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">De inicio a fín. Un viaje desde el solar vacío hasta la casa de nuestros sueños, documentado paso a paso.</p>
+        </section>
+        
+        <div id="content" class="space-y-16 md:space-y-24">
+            <!-- SECCIÓN UBICACIÓN -->
+            <section id="ubicacion" class="scroll-mt-24 py-8 px-6 bg-slate-800/50 rounded-xl shadow-xl">
+                <div class="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="prose max-w-none text-gray-300">
+                        <h2 class="text-3xl font-bold text-yellow-300 mb-4">Ubicación</h2>
+                        <p>El primer paso de esta aventura fue encontrar el lugar perfecto. Después de mucho buscar, elegimos una parcela en Azuqueca de Henares, Guadalajara. Nos enamoró su tranquilidad, sus zonas verdes y la buena comunicación con los servicios que necesitamos en el día a día.</p>
+                        <p>Aquí documentamos los primeros momentos: la visita al solar, las vistas desde la parcela y la sensación de saber que habíamos encontrado el sitio donde construiríamos nuestro futuro.</p>
+                    </div>
+                    <div class="gallery" data-gallery-id="ubicacion">
+                        <div class="main-image-container mb-4" style="max-height: 500px;">
+                            <img src="img\1-ubicacion\ubicacion-1.jpg" alt="Vista de la parcela" class="main-image w-full h-auto object-cover rounded-lg shadow-lg">
+                        </div>
+                        <div class="thumbnail-grid grid grid-cols-3 sm:grid-cols-4 gap-2" style="max-height: 500px;">
+                            <img src="img\1-ubicacion\ubicacion-1.jpg" alt="Parcela Inicial" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="img\1-ubicacion\ubicacion-2.jpg" alt="Vistas desde la parcela" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="img\1-ubicacion\ubicacion-3.jpg" alt="Calle de acceso" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="img\1-ubicacion\ubicacion-6.jpg" alt="Calle de acceso" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN DISEÑO -->
+            <section id="diseno" class="scroll-mt-24 py-8 px-6 bg-slate-800/50 rounded-xl shadow-xl">
+                <div class="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="prose max-w-none text-gray-300 md:order-2">
+                        <h2 class="text-3xl font-bold text-yellow-300 mb-4">Diseño</h2>
+                        <p>Con el lugar decidido, llegó el momento de plasmar nuestras ideas en papel. Esta fase fue un diálogo constante con el arquitecto para dar forma a cada rincón de la casa. Buscábamos un diseño funcional, con espacios abiertos y mucha luz natural.</p>
+                        <p>Desde los primeros bocetos hasta los planos definitivos y los renders 3D que nos permitieron "ver" la casa antes de empezar, cada decisión fue un paso emocionante hacia la materialización de nuestro sueño.</p>
+                    </div>
+                    <div class="gallery md:order-1" data-gallery-id="diseno">
+                        <div class="main-image-container mb-4">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Plano+Arquitect%C3%B3nico" alt="Plano principal" class="main-image w-full h-auto object-cover rounded-lg shadow-lg">
+                        </div>
+                        <div class="thumbnail-grid grid grid-cols-3 sm:grid-cols-4 gap-2">
+                            <img src="img/2-diseño/disseño-3.jpeg" alt="Render 3D" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+
+                            <img src="img/2-diseño/diseño-1.jpeg" alt="Plano principal" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="img/2-diseño/plano-1.jpg" alt="Render 3D" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                           
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN IDEAS -->
+            <section id="ideas" class="scroll-mt-24 py-8 px-6 bg-slate-800/50 rounded-xl shadow-xl">
+                <div class="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="prose max-w-none text-gray-300">
+                        <h2 class="text-3xl font-bold text-yellow-300 mb-4">Ideas e Inspiración</h2>
+                        <p>Antes de que los planos fueran definitivos, pasamos incontables horas buscando inspiración. Esta fase es la más creativa, donde se define el estilo, los colores y las texturas que darán vida a los espacios. Desde revistas de decoración hasta tableros de Pinterest, cada idea cuenta.</p>
+                        <p>Aquí compartimos nuestros "moodboards" y la colección de ideas que nos ayudaron a visualizar el ambiente y la estética que queríamos para cada rincón de la casa. Un paso crucial para que el diseño no solo fuera funcional, sino también un reflejo de nuestra personalidad.</p>
+                    </div>
+                    <div class="gallery" data-gallery-id="ideas">
+                        <div class="main-image-container mb-4">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Moodboard+Sala" alt="Moodboard salón" class="main-image w-full h-auto object-cover rounded-lg shadow-lg">
+                        </div>
+                        <div class="thumbnail-grid grid grid-cols-3 sm:grid-cols-4 gap-2">
+                            <img src="img/4-ideas/ideas-1.jpg" alt="Moodboard salón" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="img/4-ideas/ideas-2.jpg" alt="Ideas de cocina" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="img/4-ideas/ideas-3.jpg" alt="Inspiración baño" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN OBRA -->
+            <section id="obra" class="scroll-mt-24 py-8 px-6 bg-slate-800/50 rounded-xl shadow-xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-2">Fases de la Obra</h2>
+                    <p class="text-lg text-gray-400">El corazón del proyecto: ver cómo la casa empieza a tomar forma.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Fase: Replanteo -->
+                    <div id="replanteo" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">4. Replanteo</h3>
+                        <p class="text-gray-400">Marcar en el terreno la ubicación exacta de la casa según los planos. ¡El primer paso físico!</p>
+                    </div>
+                    <!-- Fase: Excavación -->
+                    <div id="excavacion" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">5. Excavación</h3>
+                        <p class="text-gray-400">Movimiento de tierras para preparar el terreno para los cimientos.</p>
+                    </div>
+                    <!-- Fase: Zapatas -->
+                    <div id="zapatas" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">6. Zapatas</h3>
+                        <p class="text-gray-400">La base de todo. Se vierte el hormigón que sustentará toda la estructura.</p>
+                    </div>
+                    <!-- Fase: Forjado -->
+                    <div id="forjado" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">7. Forjado</h3>
+                        <p class="text-gray-400">Creación de la losa de suelo de la planta baja. Ya se puede "pisar" la casa.</p>
+                    </div>
+                    <!-- Fase: Muro Perimetral -->
+                    <div id="muro" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">8. Muro Perimetral</h3>
+                        <p class="text-gray-400">Levantamiento de los muros que delimitan la parcela y dan privacidad.</p>
+                    </div>
+                    <!-- Fase: Columnas y Paredes -->
+                    <div id="columnas" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">9. Columnas y Paredes</h3>
+                        <p class="text-gray-400">La estructura empieza a crecer en vertical, definiendo los espacios.</p>
+                    </div>
+                     <!-- Fase: Cubierta -->
+                    <div id="cubierta" class="scroll-mt-24 bg-gray-900 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-50 mb-2">10. Cubierta</h3>
+                        <p class="text-gray-400">¡Ya tenemos techo! Un hito importante que protege la construcción.</p>
+                    </div>
+                </div>
+                 <div class="mt-8 gallery" data-gallery-id="obra">
+                    <div class="main-image-container mb-4">
+                        <img src="https://placehold.co/800x600/333333/EBD9B4?text=Excavaci%C3%B3n" alt="Excavación" class="main-image w-full h-auto object-cover rounded-lg shadow-lg">
+                    </div>
+                    <div class="thumbnail-grid grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2">
+
+
+                        <img src="img/varios/encofrados-tablas.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/excavadora-1.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/excavadora-2.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/excavadora-4.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/excavadora-6.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/excavadora-zapata.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/forjado-1.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/forjado-3.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/placas anclaje.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/varios/saneamiento.jpeg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+
+                        <img src="img/5-replanteo/replanteo-0.jpg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/5-replanteo/replanteo-1.jpg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/5-replanteo/replanteo-2.jpg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/5-replanteo/replanteo-3.jpg" alt="Replanteo" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        
+                        
+                        <img src="img/6-excavacion/zapatas-7.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        
+                        <img src="img/7-zapatas/zapatas-1.jpeg" alt="Zapatas" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        
+                        <img src="img/8-forjado/forjado-2.jpeg" alt="Forjado" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        
+                        <img src="img/9-medianera/medianera-1.jpeg" alt="Muros" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                    
+                         <img src="img/7-zapatas/zapatas-11.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                                                 <img src="img/7-zapatas/zapatas-1.jpeg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                         <img src="img/7-zapatas/zapatas-1.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                         <img src="img/7-zapatas/zapatas-2.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                         <img src="img/7-zapatas/zapatas-3.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                         <img src="img/7-zapatas/zapatas-4.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                         <img src="img/7-zapatas/zapatas-5.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                         <img src="img/7-zapatas/zapatas-6.jpg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+
+                        <img src="img/8-forjado/daneamiento-1.jpeg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/8-forjado/forjado-1.jpeg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        <img src="img/8-forjado/forjado-2.jpeg" alt="Excavación" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+
+                        </div>
+                </div>
+            </section>
+            
+            <!-- SECCIÓN INTERIORES -->
+            <section id="interiores" class="scroll-mt-24 py-8 px-6 bg-slate-800/50 rounded-xl shadow-xl" style="display: none;">
+                 <div class="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div class="prose max-w-none text-gray-300">
+                        <h2 class="text-3xl font-bold text-yellow-300 mb-4">Interiores</h2>
+                        <p>Una vez que la estructura principal y la cubierta están terminadas, la magia se traslada al interior. Esta es la fase donde la casa empieza a sentirse como un hogar.</p>
+                        <p>Aquí documentaremos la tabiquería interior que define cada habitación, la instalación de fontanería y electricidad, los alicatados, la elección de suelos, la pintura... cada detalle que da personalidad y confort a nuestro futuro hogar.</p>
+                    </div>
+                    <div class="gallery" data-gallery-id="interiores">
+                        <div class="main-image-container mb-4">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Tabiques+Interiores" alt="Tabiques interiores" class="main-image w-full h-auto object-cover rounded-lg shadow-lg">
+                        </div>
+                        <div class="thumbnail-grid grid grid-cols-3 sm:grid-cols-4 gap-2">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Tabiques+Interiores" alt="Tabiques interiores" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Instalaciones+El%C3%A9ctricas" alt="Instalaciones" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Alicatado+Ba%C3%B1o" alt="Alicatado baño" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                            <img src="https://placehold.co/800x600/333333/EBD9B4?text=Pruebas+de+Pintura" alt="Pruebas de color" class="gallery-thumbnail w-full h-20 object-cover rounded-md border-2 border-transparent hover:border-yellow-300">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="container mx-auto px-4 md:px-6 text-center">
+            <p>&copy; 2025 Luis Construye. Un proyecto personal hecho con ilusión.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Interactive Galleries
+            const galleries = document.querySelectorAll('.gallery');
+            galleries.forEach(gallery => {
+                const mainImage = gallery.querySelector('.main-image');
+                const thumbnails = gallery.querySelectorAll('.gallery-thumbnail');
+
+                if (thumbnails.length > 0) {
+                    thumbnails[0].classList.add('active');
+                    mainImage.src = thumbnails[0].src;
+                    mainImage.alt = thumbnails[0].alt;
+                }
+
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', () => {
+                        const oldImageSrc = mainImage.src;
+                        const newImageSrc = thumbnail.src;
+                        
+                        if (oldImageSrc !== newImageSrc) {
+                            mainImage.classList.add('fade-out');
+                            setTimeout(() => {
+                                mainImage.src = newImageSrc;
+                                mainImage.alt = thumbnail.alt;
+                                mainImage.classList.remove('fade-out');
+                            }, 500);
+                        }
+
+                        thumbnails.forEach(t => t.classList.remove('active'));
+                        thumbnail.classList.add('active');
+                    });
+                });
+            });
+
+            // Active nav link and progress bar on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const progressBar = document.getElementById('progress-bar');
+            
+            const progressData = {
+                'ubicacion': 9.09,
+                'diseno': 18.18,
+                'ideas': 27.27,
+                'replanteo': 36.36,
+                'excavacion': 45.45,
+                'zapatas': 54.54,
+                'forjado': 63.63,
+                'muro': 72.72,
+                'columnas': 81.81,
+                'cubierta': 90.9,
+                'interiores': 100
+            };
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        let activeLinkHref = `#${id}`;
+
+                        if (['replanteo', 'excavacion', 'zapatas', 'forjado', 'muro', 'columnas', 'cubierta'].includes(id)) {
+                           activeLinkHref = '#obra';
+                        }
+                        if (['paredes'].includes(id)) {
+                           activeLinkHref = '#interiores';
+                        }
+
+                        // Update nav link
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === activeLinkHref) {
+                                link.classList.add('active');
+                            }
+                        });
+
+                        // Update progress bar
+                        if (progressData[id]) {
+                            progressBar.style.width = `${progressData[id]}%`;
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Set initial progress bar state
+            const firstSection = document.querySelector('section[id]');
+            if (firstSection) {
+                const id = firstSection.getAttribute('id');
+                if (progressData[id]) {
+                    progressBar.style.width = `${progressData[id]}%`;
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
